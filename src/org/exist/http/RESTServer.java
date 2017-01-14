@@ -1476,9 +1476,6 @@ public class RESTServer {
                 XmldbURI.EMBEDDED_SERVER_URI.append(
                 resource.getCollection().getURI()).toString());
 
-        context.setStaticallyKnownDocuments(
-                new XmldbURI[]{resource.getCollection().getURI()});
-
         final HttpRequestWrapper reqw = declareVariables(context, null, request, response);
         reqw.setServletPath(servletPath);
         reqw.setPathInfo(pathInfo);
