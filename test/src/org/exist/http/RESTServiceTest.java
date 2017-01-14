@@ -49,9 +49,8 @@ import javax.xml.parsers.SAXParser;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 
 /** A test case for accessing a remote server via REST-Style Web API.
  * @author wolf
@@ -131,6 +130,10 @@ public class RESTServiceTest {
         "declare namespace request=\"http://exist-db.org/xquery/request\";\n" +
         "declare option exist:serialize \"method=text media-type=text/text\";\n" +
         "request:get-data()//data/text() || ' ' || request:get-path-info()";
+
+    private final static String TEST_XQUERY_STATICALLY_KNOWN_DOCUMENTS =
+            "xquery version \"3.0\";\n" +
+                    "collection()//test";
 
     private static String credentials;
     private static String badCredentials;
@@ -585,7 +588,30 @@ public class RESTServiceTest {
         // cached and wrapped:
         doStoredQuery(true, true);
     }
-    
+
+    @Test
+    public void staticallyKnownDocuments() throws IOException, ParserConfigurationException, SAXException {
+
+        doPut(TEST_XQUERY_STATICALLY_KNOWN_DOCUMENTS, "/subcollection/collection.xq", 201);
+
+        String path = getCollectionUriRedirected() + "/subcollection/collection.xq";
+
+        int r = uploadData();
+        assertEquals("Server returned response code " + r, 201, r);
+
+        HttpURLConnection connect = getConnection(path);
+        connect.setRequestMethod("GET");
+        connect.setRequestProperty("Authorization", "Basic " + credentials);
+        connect.connect();
+
+        r = connect.getResponseCode();
+        assertEquals("Server returned response code " + r, 200, r);
+
+        String response = readResponse(connect.getInputStream());
+        assertNotEquals("Server returned empty response", response, "");
+
+    }
+
     private void doPut(String data, String path, int responseCode) throws IOException {
         HttpURLConnection connect = getConnection(getCollectionUri() + '/' + path);
         connect.setRequestProperty("Authorization", "Basic " + credentials);
