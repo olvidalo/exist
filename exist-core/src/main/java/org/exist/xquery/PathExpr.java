@@ -116,7 +116,7 @@ public class PathExpr extends AbstractExpression implements CompiledXQuery,
     public void replace(final Expression oldExpr, final Expression newExpr) {
         final int idx = steps.indexOf(oldExpr);
         if (idx < 0) {
-            LOG.warn("Expression not found: " + ExpressionDumper.dump(oldExpr) + "; in: " + ExpressionDumper.dump(this));
+             //LOG.warn("Expression not found: " + ExpressionDumper.dump(oldExpr) + "; in: " + ExpressionDumper.dump(this));
             return;
         }
         steps.set(idx, newExpr);
