@@ -17,7 +17,7 @@ jetty.xml
 
 
 ### GZip Transfer Encoding Support
-jetty-gzip.xml
+#jetty-gzip.xml
 
 
 ### HTTP
