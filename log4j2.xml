@@ -149,7 +149,7 @@
         </Logger>
         
         <Logger name="org.exist.statistics" additivity="false" level="debug">
-            <AppenderRef ref="exist.core"/>
+            <!--AppenderRef ref="exist.core"/-->
             <AppenderRef ref="exist.statistics"/> 
         </Logger>
         
