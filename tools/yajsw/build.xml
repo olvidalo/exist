@@ -94,7 +94,7 @@
         <echo message="--------------------------------------------------"/>
        
         <mkdir dir="${classes}"/>
-	    <delete dir="${logs}"/>
+	    <!--delete dir="${logs}"/-->
 		<mkdir dir="${logs}"/>
     	<delete dir="${work}"/>
     	<mkdir dir="${work}"/>
